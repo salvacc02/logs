@@ -40,9 +40,9 @@ def upload_to_google_drive(file_name, folder_id, content):
 if __name__ == "__main__":
     namespace = "bsi-arren-service-prod"  # Reemplaza con el nombre de tu espacio de nombres
     pod_name = "msasr-o-b-listo-recovery-8-rnhrc"  # Reemplaza con el nombre de tu pod
-    username = "tu_usuario"  # Reemplaza con tu nombre de usuario
-    password = "tu_contraseña"  # Reemplaza con tu contraseña
-    api_server = "https://tu.api.server.com"  # Reemplaza con la URL del servidor API de Kubernetes
+    username = "salvadorcampos"  # Reemplaza con tu nombre de usuario
+    password = "%BUeG4le%gd3$6yp"  # Reemplaza con tu contraseña
+    api_server = "https://api.bsi-arrend-ocpd.jp58.p1.openshiftapps.com:6443"  # Reemplaza con la URL del servidor API de Kubernetes
 
     logs = get_pod_logs(namespace, pod_name, username, password, api_server)
 
