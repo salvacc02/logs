@@ -12,4 +12,4 @@ COPY requirements.txt /usr/src/app/
 RUN pip install -r requirements.txt
 
 # Ejecuta el programa Python
-ENTRYPOINT python main.py
+ENTRYPOINT python app.py
