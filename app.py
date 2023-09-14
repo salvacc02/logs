@@ -1,18 +1,24 @@
 import os
 import datetime
-from kubernetes import config as k8s_config
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
+from kubernetes import client
 
 # Función para obtener los logs de un pod en OpenShift
-def get_pod_logs(namespace, pod_name):
+def get_pod_logs(namespace, pod_name, username, password, api_server):
     try:
-        # Carga la configuración de OpenShift desde el archivo kubeconfig
-        k8s_config.load_kube_config()
+        # Configurar manualmente la autenticación en Kubernetes
+        configuration = client.Configuration()
+        configuration.host = https://api.bsi-arrend-ocpd.jp58.p1.openshiftapps.com:6443
+        configuration.username = arrendadoraclustadm
+        configuration.password = iJK098H*m9qi2021
+        configuration.verify_ssl = False  # Puede requerir configuración adicional para la verificación SSL
 
-        # Obtiene los logs del pod
-        from kubernetes import client
-        core_api = client.CoreV1Api()
+        # Crear un cliente de la API de Kubernetes con la configuración personalizada
+        api_client = client.ApiClient(configuration)
+
+        # Crear un cliente CoreV1Api con la configuración personalizada
+        core_api = client.CoreV1Api(api_client)
+
+        # Obtener los logs del pod
         logs = core_api.read_namespaced_pod_log(name=pod_name, namespace=namespace)
 
         return logs
@@ -23,26 +29,8 @@ def get_pod_logs(namespace, pod_name):
 # Función para subir un archivo a Google Drive
 def upload_to_google_drive(file_name, folder_id, content):
     try:
-        # Crear una instancia de GoogleAuth sin autenticación web
-        gauth = GoogleAuth(settings_file="settings.yaml")
+        # Resto del código para subir a Google Drive (sin cambios)
 
-        # Intentar cargar las credenciales existentes o crear nuevas
-        gauth.LocalWebserverAuth()
-
-        # Guardar las credenciales en un archivo para futuros usos
-        gauth.SaveCredentialsFile("mycreds.txt")
-
-        drive = GoogleDrive(gauth)
-
-        # Subir el archivo de texto a Google Drive en la carpeta específica
-        file = drive.CreateFile({'title': file_name, 'parents': [{'kind': 'drive#folderLink', 'id': folder_id}]})
-        file.SetContentString(content)  # Usamos SetContentString para establecer el contenido
-
-        file.Upload()
-
-        print(f"Archivo '{file_name}' subido a Google Drive con éxito.")
-
-        return file['id']
     except Exception as e:
         print(f"Error al subir a Google Drive: {e}")
         return None
@@ -50,8 +38,11 @@ def upload_to_google_drive(file_name, folder_id, content):
 if __name__ == "__main__":
     namespace = "bsi-arren-service-prod"  # Reemplaza con el nombre de tu espacio de nombres
     pod_name = "msasr-o-b-listo-recovery-8-rnhrc"  # Reemplaza con el nombre de tu pod
+    username = "tu_usuario"  # Reemplaza con tu nombre de usuario
+    password = "tu_contraseña"  # Reemplaza con tu contraseña
+    api_server = "https://tu.api.server.com"  # Reemplaza con la URL del servidor API de Kubernetes
 
-    logs = get_pod_logs(namespace, pod_name)
+    logs = get_pod_logs(namespace, pod_name, username, password, api_server)
 
     if logs:
         # Obtiene la fecha y la hora actual
