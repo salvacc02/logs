@@ -1,5 +1,5 @@
 # Utiliza una imagen base con Python preinstalado
-FROM python:3.11.5
+FROM python:latest
 
 COPY . /usr/src/app/
 
