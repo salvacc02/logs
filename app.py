@@ -1,6 +1,8 @@
 import os
 import datetime
 from kubernetes import client
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 
 # Función para obtener los logs de un pod en OpenShift
 def get_pod_logs(namespace, pod_name, username, password, api_server):
